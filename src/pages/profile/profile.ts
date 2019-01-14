@@ -26,7 +26,13 @@ export class ProfilePage {
         this.cliente = response;
         console.log(response);
       },
-      (error) => {});
+      (error) => {
+        if(error.status==403){
+          this.navCtrl.setRoot('HomePage'); 
+        }
+      });
+    }else{
+      this.navCtrl.setRoot('HomePage');
     }
   }
 
