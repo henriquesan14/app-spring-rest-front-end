@@ -31,4 +31,8 @@ export class CategoriasPage {
       this.items = response;});
   }
 
+  showProdutos(){
+    this.navCtrl.push('ProdutosPage');
+  }
+
 }
