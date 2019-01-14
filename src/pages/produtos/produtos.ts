@@ -23,5 +23,9 @@ export class ProdutosPage {
       this.items = response['content'];
     },(error)=>{});
   }
+  
+  showDetail(){
+    this.navCtrl.push('ProdutoDetailPage');
+  }
 
 }
