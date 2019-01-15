@@ -11,7 +11,9 @@ import { ProdutoService } from '../../services/domain/produto.service';
 })
 export class ProdutosPage {
 
-  items: ProdutoDTO[];
+  items: ProdutoDTO[] = [];
+  page: number = 0;
+
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public produtoService: ProdutoService,
     public loadingCtrl: LoadingController) {
@@ -24,9 +26,11 @@ export class ProdutosPage {
   loadData(){
     let categoriaId = this.navParams.get('categoria_id');
     let loader = this.presentLoading();
-    this.produtoService.findByCategoria(categoriaId)
+    this.produtoService.findByCategoria(categoriaId, this.page, 10)
     .subscribe((response)=>{
-      this.items = response['content'];
+      this.items = this.items.concat(response['content']);
+      console.log(this.page);
+      console.log(this.items);
       loader.dismiss();
     },(error)=>{
       loader.dismiss();
@@ -50,5 +54,13 @@ export class ProdutosPage {
     setTimeout(()=>{
       refresher.complete();
     },1000);
+  }
+
+  doInfinite(infiniteScroll){
+    this.page++;
+    this.loadData();
+    setTimeout(()=>{
+      infiniteScroll.complete();
+    }, 1000);
   }
 }
